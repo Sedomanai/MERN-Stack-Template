@@ -1,0 +1,6 @@
+{
+    "ignore": ["*"],
+    "watch": ["app.js"],
+    "ext": "js",
+    "delay": 1000
+}
