@@ -1,6 +1,7 @@
 const path = require('path');
 const root = path.resolve(__dirname);
 const bswp = require('browser-sync-webpack-plugin');
+const minicss = require('mini-css-extract-plugin');
 const bsync = new bswp ({
   port: 3000,
   ui: { port: 3002 },
@@ -10,30 +11,40 @@ const bsync = new bswp ({
   notify: false
 });
 
+const mcss = new minicss({
+  filename:'styles.css',
+})
 
 module.exports = {
-  entry: path.join(root, 'src', 'index.js'),
+  entry: {
+    main : path.join(root, 'src', 'main.js'),
+    styles : path.join(root, 'src', 'tailwind.js'),
+  },
   output: {
     path: path.join(root, 'dist'),
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   module: {
     rules: [
       {
+        include: path.join(root, 'src', 'tailwind.css'),
+        use: [minicss.loader, 'css-loader', 'postcss-loader']
+      },
+      {
         test: /\.js$/,
         include: path.join(root, 'src'),
-        exclude: path.join(root, '/node_modules/'),
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
         }
-      }
-      ,{
+      },
+      {
         test: /\.css$/,
         include: path.join(root, 'src'),
-        exclude: path.join(root, '/node_modules/'),
-        use: ['style-loader', 'css-loader', 'postcss-loader']
-      },
+        exclude: /tailwind\.css$/,
+        use: ['style-loader','css-loader', 'postcss-loader']
+      }, 
     ]
   },
-  plugins: [bsync] 
+  plugins: [bsync, mcss]
 };

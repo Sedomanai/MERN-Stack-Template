@@ -7,7 +7,7 @@ app.use('/public', express.static('public'));
 
 const router = express.Router();
 router.get('/', (req, res) => {
-  res.sendFile( path.resolve('./public/page.html'));
+  res.sendFile( path.resolve('./public/main.html'));
 }); app.use('/', router);
 
 const port = process.env.PORT || 3001;
