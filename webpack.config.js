@@ -1,13 +1,13 @@
 const path = require('path');
 const root = path.resolve(__dirname);
-const bswp = require('browser-sync-webpack-plugin');
 const minicss = require('mini-css-extract-plugin');
 const cleanup = require('./plugins/cleanup_after_emit.js');
-const bsync = new bswp ({
+//browser sync
+const bsync = new (require('browser-sync-webpack-plugin')) ({
   port: 3000,
   ui: { port: 3002 },
   proxy: 'http://localhost:3001',
-  files: ['public/**/*.{html,css,js}', 'dist/**/*.{html,css,js}'],
+  files: ['ssr.js', 'public/**/*.{html,css,js}', 'dist/**/*.{html,css,js}'],
   open: false,
   notify: false
 });
@@ -72,5 +72,6 @@ const serverConfig = {
       },
     ]
   },
+  plugins: [bsync]
 }
 module.exports = [clientConfig, serverConfig]
