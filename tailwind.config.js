@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-    content: ["src/**/*.{html,js}"],
+    content: ["client/**/*.{html,js}"],
     fontFamily: {
       lato: ["Lato", ...defaultTheme.fontFamily.mono]
     },

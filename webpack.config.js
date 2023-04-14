@@ -19,8 +19,8 @@ const clean = new cleanup({ file: 'styles.js' })
 
 module.exports = {
   entry: {
-    main : path.join(root, 'src/entries/main.js'),
-    styles : path.join(root, 'src/entries/tailwind.js'),
+    main : path.join(root, 'client/entries/main.js'),
+    styles : path.join(root, 'client/entries/tailwind.js'),
   },
   output: {
     path: path.join(root, 'dist'),
@@ -29,12 +29,12 @@ module.exports = {
   module: {
     rules: [
       {
-        include: path.join(root, 'src', 'tailwind.css'),
+        include: path.join(root, 'client', 'tailwind.css'),
         use: [minicss.loader, 'css-loader', 'postcss-loader']
       },
       {
         test: /\.js$/,
-        include: path.join(root, 'src'),
+        include: path.join(root, 'client'),
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -42,7 +42,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: path.join(root, 'src'),
+        include: path.join(root, 'client'),
         exclude: /tailwind\.css$/,
         use: ['style-loader','css-loader', 'postcss-loader']
       }, 
