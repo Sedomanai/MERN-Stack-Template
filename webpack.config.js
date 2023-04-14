@@ -1,7 +1,5 @@
 const path = require('path');
 const root = path.resolve(__dirname);
-const minicss = require('mini-css-extract-plugin');
-const cleanup = require('./plugins/cleanup_after_emit.js');
 //browser sync
 const bsync = new (require('browser-sync-webpack-plugin')) ({
   port: 3000,
@@ -12,10 +10,36 @@ const bsync = new (require('browser-sync-webpack-plugin')) ({
   notify: false
 });
 
-const mcss = new minicss({
+
+//mini css
+const minicss = require('mini-css-extract-plugin');
+const twcss = new minicss ({
   filename:'styles.css',
+});
+
+//css nano
+const cssminimizer = new (require('css-minimizer-webpack-plugin'))();
+const postcssloader = {
+  loader: 'postcss-loader',
+  options: {
+    postcssOptions: {
+      plugins: [
+        (require('postcss-preset-env'))(),
+        (require('cssnano'))({
+          preset: ['default', { discardComments: { removeAll: true } }],
+        })
+      ]
+    }
+  }
+}
+
+//custom-cleanup-plugin
+const clean = new (require('./plugins/cleanup_after_emit.js'))({ 
+  file: 'styles.js' 
 })
-const clean = new cleanup({ file: 'styles.js' })
+const cleanmap = new (require('./plugins/cleanup_after_emit.js'))({ 
+  file: 'styles.js.map' 
+})
 
 const clientConfig = {
   entry: {
@@ -24,13 +48,15 @@ const clientConfig = {
   },
   output: {
     path: path.join(root, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    chunkFilename: '[name].chunk.js',
   },
   module: {
     rules: [
       {
         include: path.join(root, 'client', 'tailwind.css'),
-        use: [minicss.loader, 'css-loader', 'postcss-loader']
+        exclude: /node_modules/,
+        use: [minicss.loader, 'css-loader', postcssloader]
       },
       {
         test: /\.js$/,
@@ -44,11 +70,16 @@ const clientConfig = {
         test: /\.css$/,
         include: path.join(root, 'client'),
         exclude: /tailwind\.css$/,
-        use: ['style-loader','css-loader', 'postcss-loader']
+        use: ['style-loader','css-loader', postcssloader]
       }, 
     ]
   },
-  plugins: [bsync, mcss, clean]
+ // devtool : 'hidden-source-map',
+  optimization: {
+    minimizer: [ cssminimizer ],
+    //splitChunks: (require('./plugins/vendor_split_chunk.js'))
+  },
+  plugins: [bsync, twcss, clean, cleanmap]
 };
 
 const serverConfig = {
