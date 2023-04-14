@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Run Dev",
+            "name": "Development",
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -16,17 +16,17 @@
             "cwd":"${workspaceFolder}",
             "console": "integratedTerminal"
         },
-        // {
-        //     "type": "node",
-        //     "request": "launch",
-        //     "name": "Run Build",
-        //     "skipFiles": [
-        //         "<node_internals>/**"
-        //     ],
-        //     "runtimeExecutable": "npm",
-        //     "args": ["run", "build"],
-        //     "cwd":"${workspaceFolder}",
-        //     "console": "integratedTerminal"
-        // }
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Production",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "runtimeExecutable": "npm",
+            "args": ["run", "prod"],
+            "cwd":"${workspaceFolder}",
+            "console": "integratedTerminal"
+        }
     ]
 }
