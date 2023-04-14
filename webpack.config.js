@@ -74,10 +74,10 @@ const clientConfig = {
       }, 
     ]
   },
- // devtool : 'hidden-source-map',
+  devtool : 'hidden-source-map',
   optimization: {
     minimizer: [ cssminimizer ],
-    //splitChunks: (require('./plugins/vendor_split_chunk.js'))
+    splitChunks: (require('./plugins/vendor_split_chunk.js'))
   },
   plugins: [bsync, twcss, clean, cleanmap]
 };

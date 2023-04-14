@@ -1,6 +1,6 @@
 {
-    "ignore": ["/.*/"],
-    "watch": ["app.js"],
+    "ignore": ["node_modules/**/*", "client/**/*", "!server/app.js"],
+    "watch": ["server/app.js"],
     "ext": "js",
     "delay": 1000
 }

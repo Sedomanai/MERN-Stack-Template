@@ -22,8 +22,8 @@ router.get('/', (req, res) => {
       `<div id="root">${AppString()}</div>`
     ));
   });
-
-  // CSR
+  
+  // CSR 
   //res.sendFile( path.join(dir, '..','public', 'main.html'));
 }); app.use('/', router);
 
