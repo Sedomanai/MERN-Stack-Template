@@ -7,7 +7,7 @@
     "prod": "npm-run-all -p start build-prod",
     "dev": "npm-run-all -p start-dev build-dev",
     "start-dev": "nodemon server/app.js",
-    "build-dev": "webpack --mode development --watch",
+    "build-dev": "webpack --mode development --watch --no-cache",
     "build-prod": "webpack --mode production --no-cache",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

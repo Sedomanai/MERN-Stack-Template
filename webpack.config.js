@@ -17,10 +17,10 @@ const mcss = new minicss({
 })
 const clean = new cleanup({ file: 'styles.js' })
 
-module.exports = {
+const clientConfig = {
   entry: {
-    main : path.join(root, 'client/entries/main.js'),
-    styles : path.join(root, 'client/entries/tailwind.js'),
+    main : path.join(root, 'client/main.js'),
+    styles : path.join(root, 'client/tailwind.js'),
   },
   output: {
     path: path.join(root, 'dist'),
@@ -50,3 +50,25 @@ module.exports = {
   },
   plugins: [bsync, mcss, clean]
 };
+
+const serverConfig = {
+  entry: {
+    ssr : path.join(root, 'server/ssr.in.js'),
+  },
+  output: {
+    path: path.join(root, 'server'),
+    filename: 'ssr.js'
+  }, module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: /server|client/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        }
+      },
+    ]
+  },
+}
+module.exports = [clientConfig, serverConfig]
