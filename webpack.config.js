@@ -52,12 +52,14 @@ const clientConfig = {
 };
 
 const serverConfig = {
+  target: 'node',
   entry: {
     ssr : path.join(root, 'server/ssr.in.js'),
   },
   output: {
     path: path.join(root, 'server'),
-    filename: 'ssr.js'
+    libraryTarget: 'commonjs2',
+    filename: 'ssr.js',
   }, module: {
     rules: [
       {
